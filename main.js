@@ -7,17 +7,11 @@ function createPlayer(name, icon) {
     return moves;
   };
 
-  const makeMove = () => {
-    let move = +prompt(`${name}'s turn`);
+  const signLink =
+    icon === "X" ? "assets/img/cross.svg" : "assets/img/circle.svg";
 
-    if (moves.includes(move)) {
-      while (move > 0 && move <= 9 && moves.includes(move)) {
-        move = +prompt("ARE YOU FCKING IDIOT? SET MOVE THE RIGHT WAY");
-      }
-    } else if (move > 0 && move <= 9) {
-      moves += move;
-      return move;
-    }
+  const makeMove = (cellIndex) => {
+    moves += cellIndex;
   };
 
   return {
@@ -25,6 +19,7 @@ function createPlayer(name, icon) {
     makeMove,
     getMoves,
     icon,
+    signLink,
   };
 }
 
@@ -32,25 +27,45 @@ const playerX = createPlayer("Abraham", "X");
 const playerO = createPlayer("Bob", "O");
 
 const Gameboard = (function () {
+  const nameDisplay = document.querySelector(".name-display");
   const cells = new Array(9);
   cells.fill(0, 0, 9);
+
+  const cellsEl = document.querySelectorAll(".cell");
+
+  const getCellsElement = () => {
+    return cellsEl;
+  };
 
   const getCells = () => {
     return cells;
   };
 
   const setCell = (index, currentPlayer) => {
-    cells[index - 1] = currentPlayer.icon;
+    if (
+      cells[index - 1] === 0 &&
+      !cellsEl[index - 1].hasChildNodes() &&
+      !Game.gameOver
+    ) {
+      cells[index - 1] = currentPlayer.icon;
+      const playerImg = document.createElement("img");
+      playerImg.classList.add("cell__img");
+      playerImg.src = currentPlayer.signLink;
+      cellsEl[index - 1].appendChild(playerImg);
+    }
   };
 
   return {
     getCells,
     setCell,
+    getCellsElement,
+    nameDisplay,
   };
 })();
 
 const Game = (function () {
   let winner = null;
+  let gameOver = false;
 
   const winCombinations = [
     "123",
@@ -84,28 +99,45 @@ const Game = (function () {
 
   const start = () => {
     let currentPlayer = playerX;
+    let movesCounter = 0;
+    let currentMove;
+    Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
 
-    for (let i = 0; i < 9; i++) {
-      let currentMove = currentPlayer.makeMove();
+    Gameboard.getCellsElement().forEach((el) => {
+      el.addEventListener("click", function clickOnCell() {
+        if (!gameOver) {
+          currentMove = el.getAttribute("id");
+          movesCounter += 1;
 
-      if (Gameboard.getCells().includes(currentMove)) {
-        currentMove = currentPlayer.makeMove(); // throw an error in DOM variant
-      } else {
-        Gameboard.setCell(currentMove, currentPlayer);
+          Gameboard.setCell(currentMove, currentPlayer);
+          currentPlayer.makeMove(currentMove);
 
-        if (i > 3) {
-          if (winnerChecker(currentPlayer)) {
-            return currentPlayer;
+          if (movesCounter > 3) {
+            if (winnerChecker(currentPlayer)) {
+              Gameboard.nameDisplay.textContent = `Winner: ${currentPlayer.name}`;
+              gameOver = true;
+              return;
+            }
           }
-        }
 
-        currentPlayer = currentPlayer === playerX ? playerO : playerX;
-      }
-    }
+          if (movesCounter === 9) {
+            Gameboard.nameDisplay.textContent = "It's draw!";
+            gameOver = true;
+            return;
+          }
+
+          currentPlayer = currentPlayer === playerX ? playerO : playerX;
+          Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
+
+          el.removeEventListener("click", clickOnCell);
+        }
+      });
+    });
   };
 
   return {
     start,
+    gameOver,
   };
 })();
 
