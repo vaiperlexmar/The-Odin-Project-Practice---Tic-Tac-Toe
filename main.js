@@ -155,11 +155,11 @@ const Game = (function () {
       }
     });
     Gameboard.getUsedCells().splice(0, Gameboard.getUsedCells().length);
-    Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
 
     winner = null;
     gameOver = false;
     currentPlayer = playerX;
+    Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
     playerX.resetMoves();
     playerO.resetMoves();
 
