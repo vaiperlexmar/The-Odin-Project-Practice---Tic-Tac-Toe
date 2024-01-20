@@ -7,6 +7,10 @@ function createPlayer(name, icon) {
     return moves;
   };
 
+  const resetMoves = () => {
+    moves = "";
+  };
+
   const signLink =
     icon === "X" ? "assets/img/cross.svg" : "assets/img/circle.svg";
 
@@ -18,6 +22,7 @@ function createPlayer(name, icon) {
     name,
     makeMove,
     getMoves,
+    resetMoves,
     icon,
     signLink,
   };
@@ -32,26 +37,33 @@ const Gameboard = (function () {
   cells.fill(0, 0, 9);
 
   const cellsEl = document.querySelectorAll(".cell");
+  const usedCells = [];
+
+  const getCells = () => {
+    return cells;
+  };
 
   const getCellsElement = () => {
     return cellsEl;
   };
 
-  const getCells = () => {
-    return cells;
+  const getUsedCells = () => {
+    return usedCells;
   };
 
   const setCell = (index, currentPlayer) => {
     if (
       cells[index - 1] === 0 &&
       !cellsEl[index - 1].hasChildNodes() &&
-      !Game.gameOver
+      !Game.gameOver &&
+      !usedCells.includes(index)
     ) {
       cells[index - 1] = currentPlayer.icon;
       const playerImg = document.createElement("img");
       playerImg.classList.add("cell__img");
       playerImg.src = currentPlayer.signLink;
       cellsEl[index - 1].appendChild(playerImg);
+      usedCells.push(index);
     }
   };
 
@@ -59,6 +71,7 @@ const Gameboard = (function () {
     getCells,
     setCell,
     getCellsElement,
+    getUsedCells,
     nameDisplay,
   };
 })();
@@ -97,48 +110,63 @@ const Game = (function () {
     return false;
   };
 
-  const start = () => {
-    let currentPlayer = playerX;
-    let movesCounter = 0;
-    let currentMove;
-    Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
+  let currentPlayer = playerX;
+  let movesCounter = 0;
+  let currentMove;
 
-    Gameboard.getCellsElement().forEach((el) => {
-      el.addEventListener("click", function clickOnCell() {
-        if (!gameOver) {
-          currentMove = el.getAttribute("id");
-          movesCounter += 1;
+  Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
 
-          Gameboard.setCell(currentMove, currentPlayer);
-          currentPlayer.makeMove(currentMove);
+  Gameboard.getCellsElement().forEach((el) => {
+    el.addEventListener("click", function clickOnCell() {
+      if (!gameOver) {
+        currentMove = el.getAttribute("id");
+        movesCounter += 1;
 
-          if (movesCounter > 3) {
-            if (winnerChecker(currentPlayer)) {
-              Gameboard.nameDisplay.textContent = `Winner: ${currentPlayer.name}`;
-              gameOver = true;
-              return;
-            }
-          }
+        Gameboard.setCell(currentMove, currentPlayer);
+        currentPlayer.makeMove(currentMove);
 
-          if (movesCounter === 9) {
-            Gameboard.nameDisplay.textContent = "It's draw!";
+        if (movesCounter > 3) {
+          if (winnerChecker(currentPlayer)) {
+            Gameboard.nameDisplay.textContent = `Winner: ${currentPlayer.name}`;
             gameOver = true;
             return;
           }
-
-          currentPlayer = currentPlayer === playerX ? playerO : playerX;
-          Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
-
-          el.removeEventListener("click", clickOnCell);
         }
-      });
+
+        if (movesCounter === 9) {
+          Gameboard.nameDisplay.textContent = "It's draw!";
+          gameOver = true;
+          return;
+        }
+
+        currentPlayer = currentPlayer === playerX ? playerO : playerX;
+
+        Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
+      }
     });
-  };
+  });
+
+  const resetBtn = document.querySelector("#reset-btn");
+  resetBtn.addEventListener("click", function reset() {
+    Gameboard.getCells().fill(0, 0, 9);
+    Gameboard.getCellsElement().forEach((el) => {
+      if (Gameboard.getUsedCells().includes(el.id)) {
+        el.innerHTML = "";
+      }
+    });
+    Gameboard.getUsedCells().splice(0, Gameboard.getUsedCells().length);
+    Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
+
+    winner = null;
+    gameOver = false;
+    currentPlayer = playerX;
+    playerX.resetMoves();
+    playerO.resetMoves();
+
+    movesCounter = 0;
+  });
 
   return {
-    start,
     gameOver,
   };
 })();
-
-Game.start();
