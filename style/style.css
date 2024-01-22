@@ -1,0 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@300&display=swap");
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #feddd8;
+  font-family: "Playpen Sans", sans-serif;
+}
+
+button {
+  font-family: "Playpen Sans", sans-serif;
+}
+
+#playground {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 2rem auto 0;
+  border: 1px solid #bfaca9;
+  width: 540px;
+  height: 540px;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #bfaca9;
+
+  width: 180px;
+  height: 180px;
+}
+
+.cell__img {
+  filter: brightness(0) saturate(100%) invert(39%) sepia(24%) saturate(1067%)
+    hue-rotate(320deg) brightness(96%) contrast(98%);
+  width: 80%;
+}
+
+.btn {
+  display: block;
+
+  transition: all 0.35s;
+  border: 0;
+  padding: 0.5rem 2rem;
+
+  font-size: 1.5rem;
+}
+
+.btn_transparent {
+  opacity: 0.8;
+  background: transparent;
+  color: black;
+}
+
+.btn_whitebordered {
+  border: 5px solid #ffe6e2;
+}
+
+.btn_gray {
+  background-color: #bfaca9;
+  color: #ffe6e2;
+}
+
+.btn:hover {
+  transform: translateY(3px);
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: translateY(7px);
+}
+
+#reset-btn {
+  margin: 2rem auto 0;
+}
+
+#reset-btn:hover {
+  -webkit-box-shadow: 0px 30px 38px -6px rgba(143, 133, 131, 0.15);
+  -moz-box-shadow: 0px 30px 38px -6px rgba(143, 133, 131, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0px 30px 38px -6px rgba(143, 133, 131, 0.15);
+}
+
+#reset-btn:active {
+  transform: translateY(2px);
+}
+
+.name-display {
+  color: #bfaca9;
+  font-size: 2.4rem;
+  text-align: center;
+}
+
+.service-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+.settings-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  transition: 0.5s;
+  border-left: 3px solid #ffe6e2;
+  background-color: #feddd8;
+  padding-top: 3rem;
+  width: 20%;
+  max-width: 400px;
+  height: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.settings-menu__btn {
+  margin: 0 auto;
+}
+
+.overlay {
+  display: block;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.blured {
+  filter: blur(5px);
+  transition: filter 0.2s ease;
+}
