@@ -1,0 +1,48 @@
+.btn {
+  display: block;
+
+  transition: all 0.35s;
+  border: 0;
+  padding: 0.5rem 2rem;
+
+  font-size: 1.5rem;
+}
+
+.btn_transparent {
+  opacity: 0.8;
+  background: transparent;
+  color: black;
+}
+
+.btn_whitebordered {
+  border: 5px solid #ffe6e2;
+}
+
+.btn_gray {
+  background-color: #bfaca9;
+  color: #ffe6e2;
+}
+
+.btn:hover {
+  transform: translateY(3px);
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: translateY(7px);
+}
+
+#reset-btn {
+  margin: 2rem auto 0;
+}
+
+#reset-btn:hover {
+  -webkit-box-shadow: 0px 30px 38px -6px rgba(143, 133, 131, 0.15);
+  -moz-box-shadow: 0px 30px 38px -6px rgba(143, 133, 131, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0px 30px 38px -6px rgba(143, 133, 131, 0.15);
+}
+
+#reset-btn:active {
+  transform: translateY(2px);
+}

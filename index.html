@@ -13,13 +13,13 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
     />
     <link rel="stylesheet" href="/style/style.css" />
-    <link rel="stylesheet" href="style/animations.css" />
   </head>
   <body>
     <div id="app">
       <aside class="settings-menu hidden">
         <button
           class="settings-menu__btn btn btn_transparent btn_whitebordered"
+          id="change-name-btn"
         >
           Change Name
         </button>
@@ -27,7 +27,7 @@
 
       <div id="overlay" class="overlay hidden"></div>
       <div class="service-bar">
-        <button href="#" class="btn btn_transparent">
+        <button class="btn btn_transparent">
           <span class="material-symbols-outlined"> arrow_back </span>
         </button>
         <h1 class="name-display"></h1>
@@ -53,5 +53,6 @@
 
     <script type="module" src="/main.js"></script>
     <script type="module" src="/components/settings.mjs"></script>
+    <script type="module" src="/components/Modal/changeNameModal.js"></script>
   </body>
 </html>

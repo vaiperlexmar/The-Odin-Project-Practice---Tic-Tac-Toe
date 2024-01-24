@@ -170,3 +170,5 @@ const Game = (function () {
     gameOver,
   };
 })();
+
+export { playerX, playerO };
