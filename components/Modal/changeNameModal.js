@@ -59,10 +59,23 @@ changeNameModalBox.appendChild(choosePlayerToggleContainer);
 // New name input
 const nameInput = document.createElement("input");
 nameInput.className = "modal__input";
+nameInput.setAttribute("maxlength", 12);
 const nameInputLabel = document.createElement("label");
 nameInputLabel.className = "modal__label";
-nameInputLabel.textContent = "Type a new name";
+nameInputLabel.textContent = "New name";
 nameInputLabel.appendChild(nameInput);
+
+// Add input to modal
+changeNameModalBox.appendChild(nameInputLabel);
+
+// Create and add submit button
+const submitName = document.createElement("button");
+submitName.textContent = "Submit";
+submitName.classList.add("btn");
+submitName.classList.add("btn_rounded");
+submitName.classList.add("btn_green");
+submitName.classList.add("modal__submit");
+changeNameModalBox.appendChild(submitName);
 
 // Add new modal window on page
 
