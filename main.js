@@ -23,6 +23,7 @@ function createPlayer(name, icon) {
 
   function nameChanger(newName) {
     this.playerName = newName;
+    localStorage.setItem(`${icon} name`, `${newName}`);
 
     if (typeof onNameChange === "function") {
       onNameChange(playerName);
@@ -41,8 +42,8 @@ function createPlayer(name, icon) {
   };
 }
 
-const playerX = createPlayer("Abraham", "X");
-const playerO = createPlayer("Bob", "O");
+const playerX = createPlayer(localStorage.getItem("X name") || "Abraham", "X");
+const playerO = createPlayer(localStorage.getItem("O name") || "Bob", "O");
 
 const Gameboard = (function () {
   const nameDisplay = document.querySelector(".name-display");
