@@ -12,8 +12,7 @@ function createPlayer(name, icon) {
     moves = "";
   };
 
-  const signLink =
-    icon === "X" ? "assets/img/cross.svg" : "assets/img/circle.svg";
+  const signLink = icon === "X" ? "./img/cross.svg" : "./img/circle.svg";
 
   const makeMove = (cellIndex) => {
     moves += cellIndex;
