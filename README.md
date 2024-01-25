@@ -12,7 +12,7 @@
 
 <ol align="center">
   <li><strong>Clone the Repository:</strong></li>
-  <pre>git clone https://github.com/your-username/tic-tac-toe.git<br>cd tic-tac-toe</pre>
+  <pre>git clone https://github.com/vaiperlexmar/The-Odin-Project-Practice---Tic-Tac-Toe</pre>
   
   <li><strong>Install Dependencies:</strong></li>
   <pre>npm install</pre>
