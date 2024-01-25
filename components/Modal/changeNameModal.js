@@ -24,8 +24,8 @@ const playerXNameEl = document.createElement("span");
 const playerONameEl = document.createElement("span");
 playerXNameEl.className = "modal__player-name";
 playerONameEl.className = "modal__player-name";
-playerXNameEl.textContent = `${playerX.name}`;
-playerONameEl.textContent = `${playerO.name}`;
+playerXNameEl.textContent = `${playerX.playerName}`;
+playerONameEl.textContent = `${playerO.playerName}`;
 choosePlayerToggleContainer.appendChild(playerXNameEl);
 choosePlayerToggleContainer.appendChild(playerONameEl);
 
@@ -60,6 +60,7 @@ changeNameModalBox.appendChild(choosePlayerToggleContainer);
 const nameInput = document.createElement("input");
 nameInput.className = "modal__input";
 nameInput.setAttribute("maxlength", 12);
+nameInput.setAttribute("minlength", 2);
 const nameInputLabel = document.createElement("label");
 nameInputLabel.className = "modal__label";
 nameInputLabel.textContent = "New name";
@@ -76,6 +77,17 @@ submitName.classList.add("btn_rounded");
 submitName.classList.add("btn_green");
 submitName.classList.add("modal__submit");
 changeNameModalBox.appendChild(submitName);
+
+// Add logic of name changing to submit button
+submitName.addEventListener("click", () => {
+  if (!choosePlayerInput.checked && nameInput.value.length >= 2) {
+    playerX.nameChanger(nameInput.value);
+    playerXNameEl.textContent = nameInput.value;
+  } else if (choosePlayerInput.checked && nameInput.value.length >= 2) {
+    playerO.nameChanger(nameInput.value);
+    playerONameEl.textContent = nameInput.value;
+  }
+});
 
 // Add new modal window on page
 

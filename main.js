@@ -2,6 +2,7 @@
 
 function createPlayer(name, icon) {
   let moves = "";
+  let playerName = name;
 
   const getMoves = () => {
     return moves;
@@ -18,13 +19,25 @@ function createPlayer(name, icon) {
     moves += cellIndex;
   };
 
+  let onNameChange;
+
+  function nameChanger(newName) {
+    this.playerName = newName;
+
+    if (typeof onNameChange === "function") {
+      onNameChange(playerName);
+    }
+  }
+
   return {
-    name,
+    playerName,
     makeMove,
     getMoves,
     resetMoves,
     icon,
     signLink,
+    nameChanger,
+    onNameChange,
   };
 }
 
@@ -114,7 +127,14 @@ const Game = (function () {
   let movesCounter = 0;
   let currentMove;
 
-  Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
+  function updateNameOnPage() {
+    Gameboard.nameDisplay.textContent = `${currentPlayer.playerName}'s turn`;
+  }
+
+  playerX.onNameChange = updateNameOnPage;
+  playerO.onNameChange = updateNameOnPage;
+
+  Gameboard.nameDisplay.textContent = `${currentPlayer.playerName}'s turn`;
 
   Gameboard.getCellsElement().forEach((el) => {
     el.addEventListener("click", function clickOnCell() {
@@ -127,7 +147,7 @@ const Game = (function () {
 
         if (movesCounter > 3) {
           if (winnerChecker(currentPlayer)) {
-            Gameboard.nameDisplay.textContent = `Winner: ${currentPlayer.name}`;
+            Gameboard.nameDisplay.textContent = `Winner: ${currentPlayer.playerName}`;
             gameOver = true;
             return;
           }
@@ -141,7 +161,7 @@ const Game = (function () {
 
         currentPlayer = currentPlayer === playerX ? playerO : playerX;
 
-        Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
+        Gameboard.nameDisplay.textContent = `${currentPlayer.playerName}'s turn`;
       }
     });
   });
@@ -159,7 +179,7 @@ const Game = (function () {
     winner = null;
     gameOver = false;
     currentPlayer = playerX;
-    Gameboard.nameDisplay.textContent = `${currentPlayer.name}'s turn`;
+    Gameboard.nameDisplay.textContent = `${currentPlayer.playerName}'s turn`;
     playerX.resetMoves();
     playerO.resetMoves();
 
